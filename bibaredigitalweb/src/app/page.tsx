@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { login,signup } from "./login/actions";
 
 import { useState } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -61,6 +62,15 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
   };
 
   return (
+
+    // <form>
+    //     <label htmlFor="email">Email:</label>
+    //     <input id="email" name="email" type="email" required />
+    //     <label htmlFor="password">Password:</label>
+    //     <input id="password" name="password" type="password" required />
+    //     <button formAction={login}>Log in</button>
+    //     <button formAction={signup}>Sign up</button>
+    //   </form>
     <div className="min-h-screen bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-slate-600/80 backdrop-blur-sm rounded-lg shadow-2xl p-8 md:p-12">
@@ -75,10 +85,9 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
               </label>
               <input
                 type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                id="email"
+                name="email"
+                required
                 className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
               />
             </div>
@@ -89,16 +98,15 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
               </label>
               <input
                 type="password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                id="password"
+                name="password"
+                required
                 className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
               />
             </div>
 
             <button
-              onClick={handleSubmit}
+              formAction={signup}
               className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
             >
               Kora Konte
@@ -143,10 +151,9 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
               </label>
               <input
                 type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                id="email"
+                name="email"
+                required
                 className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
               />
             </div>
@@ -157,16 +164,15 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
               </label>
               <input
                 type="password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                id="password"
+                name="password"
+                required
                 className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
               />
             </div>
 
             <button
-              onClick={()=>router.push('/home')}
+              onClick={() => router.push("/home")}
               className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
             >
               Injira
