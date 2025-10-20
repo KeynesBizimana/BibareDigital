@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { login,signup } from "./login/actions";
 
 import { useState } from "react";
@@ -62,7 +62,6 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
   };
 
   return (
-
     // <form>
     //     <label htmlFor="email">Email:</label>
     //     <input id="email" name="email" type="email" required />
@@ -79,38 +78,39 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
           </h1>
 
           <div className="space-y-6">
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Emeli
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
-              />
-            </div>
+            <form>
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Emeli
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
+                />
+              </div>
 
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Ijambobanga
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
-              />
-            </div>
-
-            <button
-              formAction={signup}
-              className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
-            >
-              Kora Konte
-            </button>
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Ijambobanga
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
+                />
+              </div>
+              <button
+                formAction={signup}
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
+              >
+                Kora Konte
+              </button>
+            </form>
 
             <div className="text-center">
               <p className="text-white mb-3">Ufite Konti ?</p>
@@ -133,7 +133,7 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
   const router = useRouter();
 
   const handleSubmit = () => {
-    router.push('/home');
+  
   };
 
   return (
@@ -145,38 +145,39 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
           </h1>
 
           <div className="space-y-6">
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Emeli
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
-              />
-            </div>
+            <form action={login}>
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Emeli
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
+                />
+              </div>
 
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Ijambobanga
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
-              />
-            </div>
-
-            <button
-              onClick={() => router.push("/home")}
-              className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
-            >
-              Injira
-            </button>
+              <div>
+                <label className="block text-white font-semibold mb-2">
+                  Ijambobanga
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
+              >
+                Injira
+              </button>
+            </form>
 
             <div className="text-center mt-4">
               <button

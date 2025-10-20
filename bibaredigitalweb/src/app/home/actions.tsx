@@ -27,7 +27,17 @@ export async function addData(formdata: FormData) {
         });
 
     if (error) {
-        redirect("/error");
+        return {
+            sucess:false,
+            message: "Habayeho Ikosa Mugushyira Ubutumire"
+        }
+    } else {
+        revalidatePath("/home");
+        return ({
+            success: true,
+            message: "Ubutumire Bwinjijwe Neza"
+        })
     }
     
 }
+

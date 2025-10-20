@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { addData } from "./actions";
 
 export default function Home({onAddEntry, onLogout }: any) {
   const [showForm, setShowForm] = useState(false);
@@ -32,7 +33,7 @@ export default function Home({onAddEntry, onLogout }: any) {
     },
   ]);
 
-  const choraleOptions = ["Inkurunziza", "El shaddai", "Abarobyi"];
+  const choraleOptions = ["Inkurunziza", "El shaddai", "Abarobyi","The Promise ","Ibisonga "];
 
   const handleSubmit = () => {
     if (
@@ -78,27 +79,41 @@ export default function Home({onAddEntry, onLogout }: any) {
 
         {showForm && (
           <div className="bg-slate-700/90 backdrop-blur-sm rounded-lg shadow-xl p-6 md:p-8 mb-8">
-            <div className="space-y-6">
+            <form action={
+              async (formDate) => {
+                const result = await addData(formDate);
+                if (result.success) {
+                  alert(result.message);
+                } else {
+                  alert(result.message)
+                }
+              }
+            } className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="flex items-center text-white font-semibold mb-2">
-                    <span>Hitamo Chorale :</span>
-                  </label>
+                
+                  <div>
+                    <label className="flex items-center text-white font-semibold mb-2">
+                      <span>Hitamo Chorale :</span>
+                    </label>
                   <select
-                    value={formData.chorale}
-                    onChange={(e) =>
-                      setFormData({ ...formData, chorale: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
-                  >
-                    <option value="">Hitamo...</option>
-                    {choraleOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                      id="chorale"
+                      name="chorale"
+                      required
+                      value={formData.chorale}
+                      onChange={(e) =>
+                        setFormData({ ...formData, chorale: e.target.value })
+                      }
+                      className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
+                    >
+                      <option value="">Hitamo...</option>
+                      {choraleOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+              
 
                 <div>
                   <label className="flex items-center text-white font-semibold mb-2">
@@ -106,10 +121,9 @@ export default function Home({onAddEntry, onLogout }: any) {
                   </label>
                   <input
                     type="text"
-                    value={formData.musanze}
-                    onChange={(e) =>
-                      setFormData({ ...formData, musanze: e.target.value })
-                    }
+                    id="uwabikoze"
+                    name="uwabikoze"
+                    required
                     className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                   />
                 </div>
@@ -120,10 +134,9 @@ export default function Home({onAddEntry, onLogout }: any) {
                   </label>
                   <input
                     type="text"
-                    value={formData.ahantu}
-                    onChange={(e) =>
-                      setFormData({ ...formData, ahantu: e.target.value })
-                    }
+                    id="ahobagiye"
+                    name="ahobagiye"
+                    required
                     className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                   />
                 </div>
@@ -134,10 +147,10 @@ export default function Home({onAddEntry, onLogout }: any) {
                   </label>
                   <input
                     type="date"
-                    value={formData.date}
-                    onChange={(e) =>
-                      setFormData({ ...formData, date: e.target.value })
-                    }
+                    id="itariki"
+                    name="itariki"
+                    required
+                    
                     className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                   />
                 </div>
@@ -145,13 +158,13 @@ export default function Home({onAddEntry, onLogout }: any) {
 
               <div className="text-center">
                 <button
-                  onClick={handleSubmit}
+                  type="submit"
                   className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-3 px-12 rounded-full transition-colors"
                 >
                   INJIZA UBUTUMIRE
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         )}
 
