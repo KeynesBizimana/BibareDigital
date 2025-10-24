@@ -1,5 +1,5 @@
 [build]
-  base = "Maimedi-app"
+  base = "bibaredigitalweb"
   command = "npm run build"
   publish = ".next"
 
