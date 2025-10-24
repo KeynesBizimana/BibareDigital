@@ -223,15 +223,17 @@ export default function Home({onAddEntry, onLogout }: any) {
               key={entry.id}
               className="bg-white rounded-lg shadow p-4 grid grid-cols-1 md:grid-cols-5 gap-4 items-center"
             >
-              <div className="font-semibold">
-                <span className="md:hidden text-slate-600">Chorale: </span>
+              <div className="font-semibold text-black">
+                <span className="md:hidden text-black text-slate-600">
+                  Chorale:{" "}
+                </span>
                 {entry.chorale}
               </div>
-              <div>
+              <div className="font-semibold text-black">
                 <span className="md:hidden text-slate-600">Aho Bagiye: </span>
                 {entry.ahobagiye}
               </div>
-              <div>
+              <div className="font-semibold text-black">
                 <span className="md:hidden text-slate-600">Itariki: </span>
                 {entry.itariki}
               </div>
@@ -242,7 +244,7 @@ export default function Home({onAddEntry, onLogout }: any) {
                     entry.umwanzuro === "yego" ? "bg-blue-600" : "bg-red-500"
                   }`}
                 >
-                  {entry.umwanzuro===false?"OYA":"YEGO"}
+                  {entry.umwanzuro === false ? "OYA" : "YEGO"}
                 </span>
               </div>
               <div className="flex gap-2">
