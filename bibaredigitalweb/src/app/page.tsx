@@ -3,10 +3,12 @@ import { redirect, useRouter } from "next/navigation";
 import { login,signup } from "./login/actions";
 
 import { useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle,Loader2 } from "lucide-react";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState("login");
+  const [submitting, setSubmitting] = useState(false);
+
   
 
   const handleLogin = () => {
@@ -17,19 +19,6 @@ export default function Page() {
     setCurrentPage("home");
   };
 
-  // const handleLogout = () => {
-  //   setUser(null);
-  //   setCurrentPage("login");
-  // };
-
-  // const handleAddEntry = (entry:any) => {
-  //   const newEntry = {
-  //     id: entries.length + 1,
-  //     ...entry,
-  //     status: "yego",
-  //   };
-  //   setEntries([newEntry, ...entries]);
-  // };
 
   if (currentPage === "signup") {
     return (
@@ -55,21 +44,26 @@ export default function Page() {
 }
 
 function SignupPage({ onSignup, onSwitchToLogin }: any) {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isLoading, setisLoading] = useState(false);
 
-  const handleSubmit = () => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setisLoading(true);
+
+    try {
+      const formDataObject = new FormData(e.currentTarget);
+      await signup(formDataObject);
+    } catch (error) {
+      console.log("Signup error ", error);
+    } finally {
+      setisLoading(false);
+    }
+
     
   };
 
   return (
-    // <form>
-    //     <label htmlFor="email">Email:</label>
-    //     <input id="email" name="email" type="email" required />
-    //     <label htmlFor="password">Password:</label>
-    //     <input id="password" name="password" type="password" required />
-    //     <button formAction={login}>Log in</button>
-    //     <button formAction={signup}>Sign up</button>
-    //   </form>
     <div className="min-h-screen bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-slate-600/80 backdrop-blur-sm rounded-lg shadow-2xl p-8 md:p-12">
@@ -78,7 +72,7 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
           </h1>
 
           <div className="space-y-6">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div>
                 <label className="block text-white font-semibold mb-2">
                   Emeli
@@ -87,6 +81,7 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
                   type="email"
                   id="email"
                   name="email"
+                  disabled={isLoading}
                   required
                   className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                 />
@@ -100,15 +95,23 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
                   type="password"
                   id="password"
                   name="password"
+                  disabled={isLoading}
                   required
                   className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                 />
               </div>
               <button
-                formAction={signup}
+                type="submit"
                 className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
               >
-                Kora Konte
+                {isLoading ?
+                
+                  (
+                    <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                      "tegereza..."
+                      </>) :
+                  (" Kora Konte")}
               </button>
             </form>
 
@@ -128,11 +131,24 @@ function SignupPage({ onSignup, onSwitchToLogin }: any) {
   );
 }
 
-function LoginPage({ onLogin, onSwitchToSignup }: any) {
+function LoginPage({  onSwitchToSignup }: any) {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isLoading, setisLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setisLoading(true);
+    try {
+      const formDataObject = new FormData(e.currentTarget);
+      await login(formDataObject);
+      
+    } catch (error) {
+      console.log("LOgin Error ", error);
+      
+    } finally {
+      setisLoading(false);
+    }
   
   };
 
@@ -145,7 +161,7 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
           </h1>
 
           <div className="space-y-6">
-            <form action={login}>
+            <form onSubmit={handleSubmit}>
               <div>
                 <label className="block text-white font-semibold mb-2">
                   Emeli
@@ -154,6 +170,7 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
                   type="email"
                   id="email"
                   name="email"
+                  disabled={isLoading}
                   required
                   className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                 />
@@ -167,15 +184,27 @@ function LoginPage({ onLogin, onSwitchToSignup }: any) {
                   type="password"
                   id="password"
                   name="password"
+                  disabled={isLoading}
                   required
                   className="w-full px-4 py-3 bg-slate-300/70 rounded focus:outline-none focus:ring-2 focus:ring-slate-400"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors"
+                disabled={isLoading}
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-full transition-colors mt-4"
               >
-                Injira
+                {
+                  isLoading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin mr-2 inline-block" />
+                      Tegereza...
+                    </>
+                  ): (
+                    "Injira"
+                  )
+                }
+                
               </button>
             </form>
 

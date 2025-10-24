@@ -29,7 +29,7 @@ export async function addData(formdata: FormData) {
     if (error) {
         return {
             sucess:false,
-            message: "Habayeho Ikosa Mugushyira Ubutumire"
+            message:error.message|| "Habayeho Ikosa Mugushyira Ubutumire"
         }
     } else {
         revalidatePath("/home");
@@ -39,5 +39,23 @@ export async function addData(formdata: FormData) {
         })
     }
     
+}
+
+export async function displayData() {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from('ubutumire').select();
+    if (error) {
+        return {
+            success: false,
+            message: error.message || "Habayeho Ikosa Mukumenya ubutumire buhari"
+        }
+    }
+    if (data === null) {
+        return {
+            success: true,
+            message: "Nta butumire Buhari"
+        }
+    }
+    return data 
 }
 

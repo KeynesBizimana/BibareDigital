@@ -18,8 +18,13 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/error");
+    return {
+      success: false,
+      message:error.message|| "Habayeho Ikosa Muginjira",
+      
+   }
   }
+  
 
   revalidatePath("/", "layout");
   redirect("/home");
@@ -38,11 +43,23 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    redirect("/error");
+    return {
+      success: false,
+      message:error.message|| "Habayeho Ikosa Mugukora Konti",
+
+    }
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+    revalidatePath("/", "layout");
+    return {
+      success: true,
+      message: "Konti Yawe Yakozwe Neza",
+
+
+    
+  }
+
+  
 }
 
 
