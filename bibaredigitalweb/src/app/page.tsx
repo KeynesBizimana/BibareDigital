@@ -141,7 +141,13 @@ function LoginPage({  onSwitchToSignup }: any) {
     setisLoading(true);
     try {
       const formDataObject = new FormData(e.currentTarget);
-      await login(formDataObject);
+      const result = await login(formDataObject);
+      if (result.success) {
+        alert(result.message);
+        if (result.shouldRedirect && result.role) {
+          router.push(`/home?role=${result.role}`)
+        }
+      }
       
     } catch (error) {
       console.log("LOgin Error ", error);

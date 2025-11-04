@@ -59,3 +59,30 @@ export async function displayData() {
     return data 
 }
 
+
+export async function updateStatus(dataId:string,status:boolean) {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from('ubutumire')
+        .update({ umwanzuro: status })
+        .eq('id', dataId)
+        .select("*")
+    if (error) {
+        return {
+            success: false,
+            message: error.message || "Habayeho Ikosa Mukuvugurura Status"
+        }
+    }
+    revalidatePath("/home");
+    return {
+        success: true,
+        message: "mwanzuro wavuguruwe neza "
+    }
+    
+        
+    
+    
+    
+
+    
+}
+

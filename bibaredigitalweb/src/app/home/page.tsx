@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { addData, displayData } from "./actions";
 import { CheckCircle, XCircle,Loader2 } from "lucide-react";
 
-export default function Home({onAddEntry, onLogout }: any) {
+export default function Home({ onLogout }: any, { searchParams }: { searchParams: { role: string } }) {
+  
+  const role= searchParams.role;
+  console.log("User role in Home page:", role);
   const [showForm, setShowForm] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const[isLoadingData,setisLoadingData]=useState(false);
@@ -248,12 +251,16 @@ export default function Home({onAddEntry, onLogout }: any) {
                 </span>
               </div>
               <div className="flex gap-2">
-                {/* <button className="p-2 bg-green-500 hover:bg-green-600 rounded text-white transition-colors">
-                  <CheckCircle size={20} />
-                </button>
-                <button className="p-2 bg-red-500 hover:bg-red-600 rounded text-white transition-colors">
-                  <XCircle size={20} />
-                </button> */}
+                {role === "admin" && (
+                  <>
+                    <button className="p-2 bg-green-500 hover:bg-green-600 rounded text-white transition-colors">
+                      <CheckCircle size={20} />
+                    </button>
+                    <button className="p-2 bg-red-500 hover:bg-red-600 rounded text-white transition-colors">
+                      <XCircle size={20} />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
