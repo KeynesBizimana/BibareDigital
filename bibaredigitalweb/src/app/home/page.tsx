@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { addData, displayData } from "./actions";
+import { addData, displayData, updateStatusUbutumire } from "./actions";
 import { CheckCircle, XCircle,Loader2 } from "lucide-react";
 
-export default function Home({ onLogout }: any, { searchParams }: { searchParams: { role: string } }) {
+export default function Home( { searchParams }: { searchParams: Promise<{ role: string }> }) {
   
-  const role= searchParams.role;
+  const param= use(searchParams);
+  const role=param.role;
   console.log("User role in Home page:", role);
   const [showForm, setShowForm] = useState(false);
   const [isLoading, setisLoading] = useState(false);
-  const[isLoadingData,setisLoadingData]=useState(false);
+  const [isLoadingData, setisLoadingData] = useState(false);
+  const[isUpdatingStatus,setisUpdatingStatus]=useState<string|null>(null);
   const [formData, setFormData] = useState({
     chorale: "",
     musanze: "",
@@ -81,6 +83,31 @@ export default function Home({ onLogout }: any, { searchParams }: { searchParams
 
   };
 
+  const updateStatus = async (dataId: string, status: boolean) => {
+    setisUpdatingStatus(dataId);
+    try {
+      if (dataId === null) {
+        throw new Error("Data ID ntishobora kuba null");
+      }
+     
+      const result = await updateStatusUbutumire(dataId, status);
+      if(result.success){
+        alert(result.message);
+      } else {
+        alert(result.message);
+      }
+  
+      
+    } catch (error) {
+      console.log("Update status error ", error);
+
+      
+    }finally {
+      setisUpdatingStatus(null);
+    }
+
+   }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-500 via-slate-600 to-slate-700 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
@@ -89,7 +116,7 @@ export default function Home({ onLogout }: any, { searchParams }: { searchParams
             Bibare Digital
           </h1>
           <button
-            onClick={onLogout}
+            // onClick={onLogout}
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors"
           >
             Sohoka
@@ -217,7 +244,7 @@ export default function Home({ onLogout }: any, { searchParams }: { searchParams
               <div>AHO BAGIYE</div>
               <div>ITARIKI</div>
               <div>UMWANZURO</div>
-              {/* <div>IGIKORWA</div> */}
+              {role === "admin" && <div>IGIKORWA</div>}
             </div>
           )}
 
@@ -244,19 +271,36 @@ export default function Home({ onLogout }: any, { searchParams }: { searchParams
                 <span className="md:hidden text-slate-600">Umwanzuro: </span>
                 <span
                   className={`inline-block px-4 py-1 rounded font-bold text-white ${
-                    entry.umwanzuro === "yego" ? "bg-blue-600" : "bg-red-500"
+                    entry.umwanzuro === null
+                      ? "bg-gray-600"
+                      : entry.umwanzuro === true
+                      ? "bg-blue-600"
+                      : "bg-red-500"
                   }`}
                 >
-                  {entry.umwanzuro === false ? "OYA" : "YEGO"}
+                  {entry.umwanzuro === null
+                    ? "TEGEREZA"
+                    : entry.umwanzuro === true
+                    ? "YEMEJWE"
+                    : "YANZWE"}
                 </span>
               </div>
               <div className="flex gap-2">
+                {isUpdatingStatus && (
+                  <Loader2 className="w-5 h-5 animate-spin text-slate-600" />
+                )}
                 {role === "admin" && (
                   <>
-                    <button className="p-2 bg-green-500 hover:bg-green-600 rounded text-white transition-colors">
+                    <button
+                      onClick={() => updateStatus(entry.id, true)}
+                      className="p-2 bg-green-500 hover:bg-green-600 rounded text-white transition-colors"
+                    >
                       <CheckCircle size={20} />
                     </button>
-                    <button className="p-2 bg-red-500 hover:bg-red-600 rounded text-white transition-colors">
+                    <button
+                      onClick={() => updateStatus(entry.id, false)}
+                      className="p-2 bg-red-500 hover:bg-red-600 rounded text-white transition-colors"
+                    >
                       <XCircle size={20} />
                     </button>
                   </>

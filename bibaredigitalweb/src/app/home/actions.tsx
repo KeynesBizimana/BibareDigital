@@ -14,7 +14,7 @@ export async function addData(formdata: FormData) {
         uwabikoze: formdata.get("uwabikoze") as string,
         ahobagiye: formdata.get("ahobagiye") as string,
         itariki: formdata.get("itariki") as string,
-        umwanzuro:false
+        umwanzuro:null
         
     }
     const { error } = await supabase.from('ubutumire')
@@ -60,7 +60,7 @@ export async function displayData() {
 }
 
 
-export async function updateStatus(dataId:string,status:boolean) {
+export async function updateStatusUbutumire(dataId:string,status:boolean) {
     const supabase = await createClient();
     const { data, error } = await supabase.from('ubutumire')
         .update({ umwanzuro: status })
